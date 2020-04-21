@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="python-tzconvert",
+    name="tzconvert",
     version="0.0.1",
     author="Sourav Banerjee",
     author_email="srvasn@gmail.com",
