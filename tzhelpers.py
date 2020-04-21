@@ -37,6 +37,7 @@ def get_tz(city_name, debug=False):
 
     if not match:
         if debug: print("No match")
+
         return None
 
     # match found

@@ -1,10 +1,13 @@
+import logging
 from datetime import datetime
-
 from dateutil import tz
 
 import tzhelpers
 
+logger = logging.getLogger(__name__)
+
 _TZ_CACHE = {}
+
 
 def adjust_datetime(naive_date, city_name, debug=False):
     """
@@ -25,6 +28,7 @@ def adjust_datetime(naive_date, city_name, debug=False):
 
     # could not fetch values, probably due to incorrect web response
     if not adjusted_tz_vals:
+        logger.debug('_get_tz failed')
         return None
 
     # creating tz offset object
