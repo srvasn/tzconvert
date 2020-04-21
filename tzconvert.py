@@ -4,6 +4,7 @@ from dateutil import tz
 
 import tzhelpers
 
+_TZ_CACHE = {}
 
 def adjust_datetime(naive_date, city_name, debug=False):
     """
@@ -11,13 +12,16 @@ def adjust_datetime(naive_date, city_name, debug=False):
     :param city_name: City name as string
     :return: Tz aware datetime adjusted to city, None on failure
     """
-    city_name = str(city_name).title()
+    global _TZ_CACHE
 
     # setting timezone of naive date passed to utc
     local_aware_datetime = naive_date.replace(tzinfo=tz.tzutc())
 
     # fetching timezone values for city_name from helper
-    adjusted_tz_vals = tzhelpers.get_tz(city_name, debug)
+    if city in _TZ_CACHE:
+        adjusted_tz_vals = _TZ_CACHE[city]
+    else:
+        adjusted_tz_vals = tzhelpers.get_tz(city_name, debug)
 
     # could not fetch values, probably due to incorrect web response
     if not adjusted_tz_vals:
