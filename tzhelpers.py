@@ -29,6 +29,7 @@ def get_tz(city_name, debug=False):
     tz_parsable = str(el[0][1].text_content()).strip()
 
     if debug:
+        print("Response code : %d" % response.status_code)
         print("Verbose timezone name : %s " % tz_verbose_name)
         print("Parsable timezone string : %s" % tz_parsable)
 
@@ -46,7 +47,7 @@ def get_tz(city_name, debug=False):
     tz_hrs = int(match.group(3))
 
     if match.group(4):  # minutes are not always returned
-        tz_mins = match.group(4)
+        tz_mins = int(match.group(4))
     else:
         tz_mins = 0
 

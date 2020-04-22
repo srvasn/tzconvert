@@ -43,7 +43,7 @@ def adjust_datetime(naive_date, city_name, debug=False):
 if __name__ == "__main__":
     # demo
 
-    cities = ["London", "San Francisco", "Shanghai", "Manila", "Sydney", "Cape town", "Rome", "Oslo", "Moscow"]
+    cities = ["Mumbai", "London", "San Francisco", "Shanghai", "Manila", "Sydney", "Cape town", "Rome", "Oslo", "Moscow"]
 
     # create naive date without timezone information
     current_datetime = datetime.utcnow()

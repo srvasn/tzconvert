@@ -8,6 +8,7 @@ NAIVE_DATE_TIME_FORMAT = "%d:%m:%y %H:%M:%S"
 class TestTZConverter(unittest.TestCase):
     def setUp(self):
         self.cities = [
+            "Mumbai",
             "London",
             "San Francisco",
             "Shanghai",
