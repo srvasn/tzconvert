@@ -1,9 +1,13 @@
 import re
 
 import lxml.html
+import numpy as np
+import pandas as pd
 import requests
+from sklearn.neighbors import BallTree
 
 DATE_TIME_FORMAT = "%d:%m:%y %H:%M:%S %Z%z"
+DATA = "data/locations.csv"
 
 
 def get_tz(city_name, debug=False):
@@ -25,7 +29,7 @@ def get_tz(city_name, debug=False):
     el = doc.xpath("//div[contains(@class, 'card-section')]")
 
     # grabbing dom node values
-    tz_verbose_name = str(el[0][0].text_content()).strip()  #cosmetic
+    tz_verbose_name = str(el[0][0].text_content()).strip()  # cosmetic
     tz_parsable = str(el[0][1].text_content()).strip()
 
     if debug:
@@ -68,3 +72,25 @@ def get_tz(city_name, debug=False):
         "tz_string": tz_string,
         "offset_sec": offset_sec
     }
+
+
+def get_nearest_city(latitude, longitude):
+    locations_df = pd.read_csv(DATA, sep=";")
+    rad_df = locations_df[["lat", "lon"]].apply(_deg2rad, axis=1).apply(pd.Series)
+    locations_df = pd.concat([locations_df, rad_df], axis=1)
+    locations_df.rename(columns={0: "radian_lat", 1: "radian_lon"}, inplace=True)
+
+    latitude, longitude = _deg2rad([latitude, longitude])
+    query_df = pd.DataFrame([[latitude, longitude]], columns=["radian_lat", "radian_lon"])
+
+    tree = BallTree(locations_df[["radian_lat", "radian_lon"]], metric="haversine")
+    distances, indices = tree.query(query_df[["radian_lat", "radian_lon"]], k=1)
+    nearest_city = locations_df[locations_df["index"] == indices[0][0] + 1]["city"].values[0]
+
+    return nearest_city
+
+
+def _deg2rad(data):
+    latitude = np.deg2rad(data[0])
+    longitude = np.deg2rad(data[1])
+    return latitude, longitude
