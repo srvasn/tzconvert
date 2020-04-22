@@ -43,8 +43,8 @@ def adjust_datetime(naive_date, city_name, debug=False):
 def approx_datetime(naive_date, latitude, longitude, debug=False):
     """
     :param naive_date: Non tz aware datetime object
-    :param latitude: latitude as float
-    :param longitude: longitude as float
+    :param latitude: Latitude as float
+    :param longitude: Longitude as float
     :return: Tz aware datetime adjusted to the nearest city, None on failure
     """
     nearest_city_name = tzhelpers.get_nearest_city(latitude, longitude)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
         naive_datetime = current_datetime
         adjusted_datetime = adjust_datetime(naive_datetime, city)
 
-    latitude, longitude = 22.5014249, 88.3948498
+    latitude, longitude = 22.5650515, 88.391722
     nearest_city_name = tzhelpers.get_nearest_city(latitude, longitude)
     approximate_datetime = approx_datetime(current_datetime, latitude, longitude)
 

@@ -75,6 +75,11 @@ def get_tz(city_name, debug=False):
 
 
 def get_nearest_city(latitude, longitude):
+    """
+    :param latitude: Latitude as float
+    :param longitude: Longitude as float
+    :return: Name of the nearest city to the latitude and longitude given
+    """
     locations_df = pd.read_csv(DATA, sep=";")
     rad_df = locations_df[["lat", "lon"]].apply(_deg2rad, axis=1).apply(pd.Series)
     locations_df = pd.concat([locations_df, rad_df], axis=1)
@@ -91,6 +96,10 @@ def get_nearest_city(latitude, longitude):
 
 
 def _deg2rad(data):
+    """
+    :param data: A list of latitude and longitude in degrees
+    :return: Latitude and longitude in radians
+    """
     latitude = np.deg2rad(data[0])
     longitude = np.deg2rad(data[1])
     return latitude, longitude
