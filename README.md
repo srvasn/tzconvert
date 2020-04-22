@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/tzconvert.svg)](https://badge.fury.io/py/tzconvert)
+
 # tzconvert
 
 tzconvert is a simple library for converting a naive, timezone unaware
@@ -6,6 +8,10 @@ datetime object to it's smarter, timezone aware version.
 ### Installation
 
 Installation is straightforward.
+
+`pip install tzconvert`
+
+#### Installing from sources
 
 - Clone this git repository.
 
