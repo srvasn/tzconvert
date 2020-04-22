@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tzconvert",
-    version="0.0.2",
+    version="0.0.2.post1",
     author="Sourav Banerjee",
     author_email="srvasn@gmail.com",
     description="Make naive datetime objects timezone aware using city names",
