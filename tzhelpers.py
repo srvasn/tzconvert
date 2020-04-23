@@ -81,15 +81,15 @@ def get_nearest_city(latitude, longitude):
     :return: Name of the nearest city to the latitude and longitude given
     """
     locations_df = pd.read_csv(DATA, sep=";")
-    rad_df = locations_df[["lat", "lon"]].apply(_deg2rad, axis=1).apply(pd.Series)
-    locations_df = pd.concat([locations_df, rad_df], axis=1)
+    radian_df = locations_df[["lat", "lon"]].apply(_deg2rad, axis=1).apply(pd.Series)
+    locations_df = pd.concat([locations_df, radian_df], axis=1)
     locations_df.rename(columns={0: "radian_lat", 1: "radian_lon"}, inplace=True)
 
     latitude, longitude = _deg2rad([latitude, longitude])
     query_df = pd.DataFrame([[latitude, longitude]], columns=["radian_lat", "radian_lon"])
 
-    tree = BallTree(locations_df[["radian_lat", "radian_lon"]], metric="haversine")
-    distances, indices = tree.query(query_df[["radian_lat", "radian_lon"]], k=1)
+    ball_tree = BallTree(locations_df[["radian_lat", "radian_lon"]], metric="haversine")
+    distances, indices = ball_tree.query(query_df[["radian_lat", "radian_lon"]], k=1)
     nearest_city = locations_df[locations_df["index"] == indices[0][0] + 1]["city"].values[0]
 
     return nearest_city
