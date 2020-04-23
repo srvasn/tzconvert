@@ -40,6 +40,17 @@ def adjust_datetime(naive_date, city_name, debug=False):
     return adjusted_datetime
 
 
+def approx_datetime(naive_date, latitude, longitude, debug=False):
+    """
+    :param naive_date: Non tz aware datetime object
+    :param latitude: Latitude as float
+    :param longitude: Longitude as float
+    :return: Tz aware datetime adjusted to the nearest city, None on failure
+    """
+    nearest_city_name = tzhelpers.get_nearest_city(latitude, longitude)
+    return adjust_datetime(naive_date, nearest_city_name, debug=debug)
+
+
 if __name__ == "__main__":
     # demo
 
@@ -60,3 +71,12 @@ if __name__ == "__main__":
 
         print("Naive date : %s" % current_datetime.strftime(tzhelpers.DATE_TIME_FORMAT))
         print("Adjusted date : %s\n" % adjusted_datetime.strftime(tzhelpers.DATE_TIME_FORMAT))
+
+    latitude, longitude = 22.5650515, 88.391722
+    nearest_city_name = tzhelpers.get_nearest_city(latitude, longitude)
+    approximate_datetime = approx_datetime(current_datetime, latitude, longitude)
+
+    print("\nLatitude, Longitude : {}, {}".format(latitude, longitude))
+    print("City nearest to {}, {} : {}".format(latitude, longitude, nearest_city_name))
+    print("Approximate date of {}, {} : {}".format(latitude, longitude,
+                                                   approximate_datetime.strftime(tzhelpers.DATE_TIME_FORMAT)))
